@@ -2,10 +2,10 @@ from enum import Enum
 
 
 class Direction(Enum):
-    LINEAR = 1
-    ROTX = 2
-    ROTY = 3
-    ROTZ = 4
+    ROT = 1
+    LINEAR = 2
+    BASE = 3
+    ENDEFECTER = 4
 
 
 class LinkParameter:
@@ -16,3 +16,25 @@ class LinkParameter:
         self.theta = theta
 
         self.direction = direction
+
+    def __str__(self):
+        if self.direction == Direction.ROT:
+            # 回転関節
+            d = self.d
+            theta = "q"
+        elif self.direction == Direction.LINEAR:
+            # 直動関節
+            d = "q"
+            theta = self.theta
+        elif self.direction == Direction.BASE:
+            # リンク0 ベース部分
+            d = "-"
+            theta = "-"
+        elif self.direction == Direction.ENDEFECTER:
+            # エンドエフェクタ
+            d = "-"
+            theta = "-"
+        else:
+            print(self.direction)
+            raise
+        return "{},{:>5},{:>5},{:>5},{:>5}".format(self.direction, self.a, self.alpha, d, theta)
